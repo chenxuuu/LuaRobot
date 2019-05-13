@@ -2,7 +2,7 @@
 
 [![MIT](https://img.shields.io/static/v1.svg?label=license&message=MIT&color=green)](https://github.com/chenxuuu/receiver-meow/blob/master/LICENSE)
 [![receiver-meow](https://img.shields.io/badge/dependencies-receiver_meow-blueviolet.svg)](https://github.com/chenxuuu/receiver-meow)
-[![code-size](https://img.shields.io/github/languages/code-size/chenxuuu/receiver-meow.svg)](https://github.com/chenxuuu/LuaRobot/archive/master.zip)
+[![code-size](https://img.shields.io/github/languages/code-size/chenxuuu/LuaRobot.svg)](https://github.com/chenxuuu/LuaRobot/archive/master.zip)
 
 合宙(`openluat`)专用的lua机器人
 
