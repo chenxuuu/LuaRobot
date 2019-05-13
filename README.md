@@ -11,3 +11,14 @@
 已更新为最新的lua框架，现本项目仅存储lua脚本。
 
 如需lua插件食用方法，请查看[receiver-meow lua插件项目](https://github.com/chenxuuu/receiver-meow)。
+
+---
+
+## 已添加库
+
+> wiki.openluat.com接口页面的库
+
+- bit
+- misc
+- utils
+- nvm
