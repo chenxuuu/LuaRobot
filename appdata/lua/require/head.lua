@@ -20,8 +20,13 @@ if maxSeconds > 0 then
 end
 
 --加上需要require的路径
+local rootPath = apiGetAsciiHex(apiGetPath())
+rootPath = rootPath:gsub("[%s%p]", ""):upper()
+rootPath = rootPath:gsub("%x%x", function(c)
+                                    return string.char(tonumber(c, 16))
+                                end)
 package.path = package.path..
-";./data/app/com.papapoi.ReceiverMeow/lua/require/?.lua"
+";"..rootPath.."/data/app/com.papapoi.ReceiverMeow/lua/require/?.lua"
 
 
 JSON = require("JSON")
