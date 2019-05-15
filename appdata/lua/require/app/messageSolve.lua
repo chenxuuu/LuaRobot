@@ -14,21 +14,6 @@ end
 
 --所有需要运行的app
 local apps = {
-    {--运行代码
-        check = function ()
-            return msg:find("#lua") == 1 or msg:find("%-%-lua") == 1
-        end,
-        run = function ()
-            local code
-            if msg:find("#lua") == 1 then
-                code = cqCqCode_UnTrope(msg:sub(5))
-            elseif msg:find("%-%-lua") == 1 then
-                code = cqCqCode_UnTrope(msg:sub(6))
-            end
-            sendMessage(cqCode_At(qq).."\r\n"..apiSandBox(code))
-            return true
-        end,
-    },
     {--查imei记录
         check = function ()
             return (msg:find("%[CQ:at,qq="..cqGetLoginQQ().."%]") or not group)
@@ -72,7 +57,23 @@ local apps = {
 
             return true
         end,
-    }
+    },
+    {--运行代码
+        check = function ()
+            return (group and (msg:find("#lua") == 1 or msg:find("%-%-lua") == 1))
+            or not group
+        end,
+        run = function ()
+            local code
+            if msg:find("#lua") == 1 then
+                code = cqCqCode_UnTrope(msg:sub(5))
+            else
+                code = cqCqCode_UnTrope(msg)
+            end
+            sendMessage(cqCode_At(qq).."\r\n"..apiSandBox(code))
+            return true
+        end,
+    },
 }
 
 --对外提供的函数接口
