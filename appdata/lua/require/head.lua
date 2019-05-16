@@ -28,6 +28,20 @@ rootPath = rootPath:gsub("%x%x", function(c)
 package.path = package.path..
 ";"..rootPath.."/data/app/com.papapoi.ReceiverMeow/lua/require/?.lua"
 
+--加载字符串工具包
+require("strings")
+
+--重载几个可能影响中文目录的函数
+local oldrequire = require
+require = function (s)
+    local s = apiGetAsciiHex(s):fromHex()
+    return oldrequire(s)
+end
+local oldloadfile = loadfile
+loadfile = function (s)
+    local s = apiGetAsciiHex(s):fromHex()
+    return oldloadfile(s)
+end
 
 JSON = require("JSON")
 --安全的，带解析结果返回的json解析函数
@@ -58,9 +72,6 @@ local oldapiHttpPost = apiHttpPost
 apiHttpPost = function (url,para,timeout,cookie,contentType)
     return oldapiHttpPost(url,para or "",timeout or 5000,cookie or "",contentType or "application/x-www-form-urlencoded")
 end
-
---加载字符串工具包
-require("strings")
 
 --获取随机字符串
 function getRandomString(len)
