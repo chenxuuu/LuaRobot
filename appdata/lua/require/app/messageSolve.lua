@@ -67,6 +67,8 @@ local apps = {
             local code
             if msg:find("#lua") == 1 then
                 code = cqCqCode_UnTrope(msg:sub(5))
+            elseif msg:find("%-%-lua") == 1 then
+                code = cqCqCode_UnTrope(msg:sub(6))
             else
                 code = cqCqCode_UnTrope(msg)
             end
