@@ -30,12 +30,12 @@ local apps = {
                 "IMEI:"..d.imei.."\r\n"..
                 "工单号:"..d.order_id.."\r\n"..
                 "袋号:"..d.packed_packet_id.."\r\n"..
-                "包装(真空袋):"..(d.packed_packet == 1 and "通过 "..d.packed_packet_time or "不通过").."\r\n"..
-                "品质部门检测:"..(d.qc_pass == 1 and "通过 "..d.qc_time or "不通过").."\r\n"..
-                "批量校准测试:"..(d.calib_pass == 1 and "通过 "..d.calib_time or "不通过").."\r\n"..
-                "订制软件升级:"..(d.upgrade_pass == 1 and "通过 "..d.upgrade_time or "不通过").."\r\n"..
-                "硬件功能检测:"..(d.ft_pass == 1 and "通过 "..d.ft_time or "不通过").."\r\n"..
-                "写入IMEI串号:"..(d.write_imei_pass == 1 and "通过 "..d.write_imei_time or "不通过"))
+                "包装(真空袋):"..(d.packed_packet == 1 and "通过 "..d.packed_packet_time or "无数据").."\r\n"..
+                "品质部门检测:"..(d.qc_pass == 1 and "通过 "..d.qc_time or "无数据").."\r\n"..
+                "批量校准测试:"..(d.calib_pass == 1 and "通过 "..d.calib_time or "无数据").."\r\n"..
+                "订制软件升级:"..(d.upgrade_pass == 1 and "通过 "..d.upgrade_time or "无数据").."\r\n"..
+                "硬件功能检测:"..(d.ft_pass == 1 and "通过 "..d.ft_time or "无数据").."\r\n"..
+                "写入IMEI串号:"..(d.write_imei_pass == 1 and "通过 "..d.write_imei_time or "无数据"))
             else
                 sendMessage(cqCode_At(qq).."\r\n".."查询出错:"..d.message)
             end
@@ -64,12 +64,7 @@ local apps = {
             or not group
         end,
         run = function ()
-            local code
-            if msg:find("%-%-lua") == 1 then
-                code = cqCqCode_UnTrope(msg:sub(6))
-            else
-                code = cqCqCode_UnTrope(msg)
-            end
+            local code = cqCqCode_UnTrope(msg)
             sendMessage(cqCode_At(qq).."\r\n"..apiSandBox(code))
             return true
         end,
