@@ -1,5 +1,5 @@
 --统一的消息处理函数
-msg,qq,group,id = nil,nil,nil,nil
+local msg,qq,group,id = nil,nil,nil,nil
 local handled = false
 
 --发送消息
@@ -41,18 +41,35 @@ local apps = {
             end
 
             if not group then--私聊回复设备信息
+                local result = {}
+
                 local cookie = apiXmlGet("settings", "iotCookie")
                 local html = apiHttpGet("https://iot.openluat.com/api/site/device/"..imei.."/info",nil,nil,cookie)
-                if not html or html == "" then sendMessage("设备绑定信息查询失败") end
+                if not html or html == "" then table.insert(result, "设备绑定信息查询失败") end
                 local d,r,e  = jsonDecode(html)
-                if not r then return end
-                sendMessage(""..
-                "项目名："..d.data.project.."\r\n"..
-                "项目创建时间："..d.data.project_creation_time.."\r\n"..
-                "ProductKey："..d.data.project_key:sub(1,5).."...后面省略\r\n"..
-                "创建人："..d.data.project_creator.."\r\n"..
-                "创建人手机号："..d.data.project_creator_phone:sub(1,5).."...后面省略\r\n"..
-                "设备创建时间："..d.data.device_creation_time)
+                if r then
+                    table.insert(result,
+                    "项目名："..d.data.project.."\r\n"..
+                    "项目创建时间："..d.data.project_creation_time.."\r\n"..
+                    "ProductKey："..(qq == 961726194 and d.data.project_key.."\r\n" or d.data.project_key:sub(1,5).."...后面省略\r\n")..
+                    "创建人："..d.data.project_creator.."\r\n"..
+                    "创建人手机号："..(qq == 961726194 and d.data.project_creator_phone.."\r\n" or d.data.project_creator_phone:sub(1,5).."...后面省略\r\n")..
+                    "设备创建时间："..d.data.device_creation_time)
+                end
+
+                html = apiHttpGet("https://iot.openluat.com/api/site/admin/device?page=0&page_size=10&search_imei="..imei,nil,nil,cookie)
+                if not html or html == "" then table.insert(result,"设备项目信息查询失败") end
+                d,r,e  = jsonDecode(html)
+                if r then
+                    if #d.data.data ~= 0 then
+                        table.insert(result,
+                        "固件名："..d.data.data[1].firmware.."\r\n"..
+                        "软件版本："..d.data.data[1].version)
+                    else
+                        table.insert(result,"设备项目信息查询结果为空")
+                    end
+                end
+                sendMessage(table.concat(result,"\r\n"))
             end
 
             return true
