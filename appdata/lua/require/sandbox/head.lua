@@ -69,10 +69,9 @@ debug.sethook(trace, "l")
 
 loadstring = load
 
-struct = require("struct")
 pack = {
-    pack = struct.pack,
-    unpack = struct.unpack,
+    pack = string.pack,
+    unpack = string.unpack,
 }
 
 BIT = require("bit")
