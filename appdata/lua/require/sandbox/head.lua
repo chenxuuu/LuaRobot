@@ -71,7 +71,12 @@ loadstring = load
 
 pack = {
     pack = string.pack,
-    unpack = string.unpack,
+    unpack = function (s,f,h)
+        if h then
+            return string.unpack(f,s:sub(h))
+        end
+        return string.unpack(f,s)
+    end,
 }
 
 BIT = require("bit")
