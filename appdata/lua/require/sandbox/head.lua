@@ -72,10 +72,14 @@ loadstring = load
 pack = {
     pack = string.pack,
     unpack = function (s,f,h)
+        local t
         if h then
-            return string.unpack(f,s:sub(h))
+            t = table.pack(string.unpack(f,s:sub(h)))
+        else
+            t = table.pack(string.unpack(f,s))
         end
-        return string.unpack(f,s)
+        table.insert(t,1,table.remove(t,#t))
+        return table.unpack(t)
     end,
 }
 
