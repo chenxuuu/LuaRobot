@@ -82,7 +82,7 @@ local apps = {
         end,
         run = function ()
             local code = cqCqCode_UnTrope(msg)
-            sendMessage((group and cqCode_At(qq).."\r\n" or "")..apiSandBox(code))
+            sendMessage((group and cqCode_At(qq).."\r\n" or "")..cqCqCode_Trope(apiSandBox(code)))
             return true
         end,
     },
