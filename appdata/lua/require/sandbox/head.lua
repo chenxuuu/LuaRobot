@@ -83,6 +83,8 @@ pack = {
     end,
 }
 
+unpack = table.unpack
+
 BIT = require("bit")
 bit = BIT.bit32
 bit.bit = function(b) return bit.lshift(1,b) end
