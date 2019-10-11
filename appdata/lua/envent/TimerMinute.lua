@@ -8,6 +8,34 @@
 
 local time = os.date("*t")
 
+--提醒第二天的东西
+if time.hour == 20 and time.min == 0 then
+    local listF = require("app.helpList")
+    local list = listF(os.time()+3600*24)--获取明天的
+    if time.wday == 7 then--周六了
+        local listm = {
+            "下面七天的值班顺序：",
+            "周日"..cqCode_At(list[1]),
+            "周一"..cqCode_At(list[2]),
+            "周二"..cqCode_At(list[3]),
+            "周三"..cqCode_At(list[4]),
+            "周四"..cqCode_At(list[5]),
+            "周五"..cqCode_At(list[6]),
+            "周六"..cqCode_At(list[7]),
+        }
+        cqSendGroupMessage(941645382, table.concat(listm, "\r\n"))
+    end
+    local day = time.wday - 1
+    if day == 0 then day = 7 end
+    cqSendGroupMessage(941645382, "明天应由"..cqCode_At(list[day]).."值班")
+end
+--提醒今天的
+if time.hour == 8 and time.min == 30 then
+    local listF = require("app.helpList")
+    local list = listF(os.time())--获取今天的
+    cqSendGroupMessage(941645382, "今天应由"..cqCode_At(list[time.wday]).."值班")
+end
+
 function checkGitHub(url,save)
     local githubRss = apiHttpGet(url)
     if githubRss or githubRss ~= "" then--获取成功的话
