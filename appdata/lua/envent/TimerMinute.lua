@@ -25,8 +25,8 @@ if time.hour == 20 and time.min == 0 then
         }
         cqSendGroupMessage(941645382, table.concat(listm, "\r\n"))
     end
-    local day = time.wday - 1
-    if day == 0 then day = 7 end
+    local day = time.wday + 1
+    if day == 8 then day = 1 end
     cqSendGroupMessage(941645382, "明天应由"..cqCode_At(list[day]).."值班")
 end
 --提醒今天的
