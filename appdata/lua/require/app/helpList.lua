@@ -3,13 +3,13 @@ local members = {
     1760580801,--盛
     1468647147,--毅
     124200583,--廖
-    961726194,--晨
 }
 
 local mo = {
     290927815,--Delectate
     80005350,--稀饭
     389627265,--Wendal
+    64034373,--柴
 }
 
 return function (time)
@@ -19,7 +19,9 @@ return function (time)
 
     table.insert(members,1,table.remove(mo,math.random(1,#mo)))--周日
     table.insert(members,table.remove(mo,math.random(1,#mo)))--周六
-    table.insert(members,2,mo[1])--剩下的
+    for i=1,#mo do--剩下的
+        table.insert(members,2,mo[i])
+    end
 
     --打乱顺序
     for i=2,#members-1 do
