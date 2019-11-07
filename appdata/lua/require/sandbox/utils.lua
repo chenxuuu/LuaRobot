@@ -25,7 +25,7 @@ end
 -- @return len,输出字符串的长度
 -- @usage
 -- string.fromHex("010203")       ->  "\1\2\3"
--- string.fromHex("313233616263:) ->  "123abc"
+-- string.fromHex("313233616263") ->  "123abc"
 function string.fromHex(hex)
     --滤掉分隔符
     local hex = hex:gsub("[%s%p]", ""):upper()
@@ -34,7 +34,7 @@ function string.fromHex(hex)
     end)
 end
 
--- 返回字符串tonumber的转义字符串(用来支持超过31位整数的转换)
+--- 返回字符串tonumber的转义字符串(用来支持超过31位整数的转换)
 -- @string str 输入字符串
 -- @return str 转换后的lua 二进制字符串
 -- @return len 转换了多少个字符
@@ -48,26 +48,88 @@ end
 --- 返回utf8编码字符串的长度
 -- @string str,utf8编码的字符串,支持中文
 -- @return number,返回字符串长度
--- @usage local cnt = string.utf8Len("中国"),str = 2
+-- @usage local cnt = string.utf8Len("中国a"),cnt == 3
 function string.utf8Len(str)
-    local len = #str
-    local left = len
-    local cnt = 0
-    local arr = {0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc}
-    while left ~= 0 do
-        local tmp = string.byte(str, -left)
-        local i = #arr
-        while arr[i] do
-            if tmp >= arr[i] then
-                left = left - i
-                break
-            end
-            i = i - 1
-        end
-        cnt = cnt + 1
-    end
-    return cnt
+    local _, count = string.gsub(str, "[^\128-\193]", "")
+    return count
 end
+
+--- 返回utf8编码字符串的单个utf8字符的table
+-- @string str，utf8编码的字符串,支持中文
+-- @return table,utf8字符串的table
+-- @usage local t = string.utf8ToTable("中国2018")
+function string.utf8ToTable(str)
+    local tab = {}
+    for uchar in string.gmatch(str, "[%z\1-\127\194-\244][\128-\191]*") do
+        tab[#tab + 1] = uchar
+    end
+    return tab
+end
+
+--- 返回字符串的 RFC3986 编码
+-- @string str，要转换编码的字符串,支持UTF8编码中文
+-- @return str, RFC3986 编码的字符串
+-- @usage local str = string.rawurlEncode("####133") ,str == "%23%23%23%23133"
+-- @usage local str = string.rawurlEncode("中国2018") , str == "%e4%b8%ad%e5%9b%bd2018"
+function string.rawurlEncode(str)
+    local t = str:utf8ToTable()
+    for i = 1, #t do
+        if #t[i] == 1 then
+            t[i] = string.gsub(string.gsub(t[i], "([^%w_%~%.%- ])", function(c) return string.format("%%%02X", string.byte(c)) end), " ", "%%20")
+        else
+            t[i] = string.gsub(t[i], ".", function(c) return string.format("%%%02X", string.byte(c)) end)
+        end
+    end
+    return table.concat(t)
+end
+
+--- 返回字符串的urlEncode编码
+-- @string str，要转换编码的字符串,支持UTF8编码中文
+-- @return str,urlEncode编码的字符串
+-- @usage local str = string.urlEncode("####133") ,str == "%23%23%23%23133"
+-- @usage local str = string.urlEncode("中国2018") , str == "%e4%b8%ad%e5%9b%bd2018"
+function string.urlEncode(str)
+    local t = str:utf8ToTable()
+    for i = 1, #t do
+        if #t[i] == 1 then
+            t[i] = string.gsub(string.gsub(t[i], "([^%w_%*%.%- ])", function(c) return string.format("%%%02X", string.byte(c)) end), " ", "+")
+        else
+            t[i] = string.gsub(t[i], ".", function(c) return string.format("%%%02X", string.byte(c)) end)
+        end
+    end
+    return table.concat(t)
+end
+
+--- 返回一个迭代器函数,每次调用函数都会返回hash表的排序后的键值对
+-- @table t, 要排序的hash表
+-- @param f, 自定义排序函数
+-- @return function.
+-- @usage test = {a=1,f=9,d=2,c=8,b=5}
+-- @usage for name,line in pairsByKeys(test) do print(name,line) end
+function table.gsort(t, f)
+    local a = {}
+    for n in pairs(t) do a[#a + 1] = n end
+    table.sort(a, f)
+    local i = 0
+    return function()
+        i = i + 1
+        return a[i], t[a[i]]
+    end
+end
+
+--- table.concat的增强版，支持嵌套字符串数组
+-- @table l,嵌套字符串数组
+-- @return string
+-- @usage  print(table.rconcat({"a",{" nice "}," and ", {{" long "},{" list "}}}))
+function table.rconcat(l)
+    if type(l) ~= "table" then return l end
+    local res = {}
+    for i = 1, #l do
+        res[i] = rconcat(l[i])
+    end
+    return table.concat(res)
+end
+
 --- 返回数字的千位符号格式
 -- @number num,数字
 -- @return string，千位符号的数字字符串
@@ -99,37 +161,21 @@ function string.split(str, delimiter)
     return strlist
 end
 
---- 返回utf8编码字符串的长度
--- @string str,utf8编码的字符串,支持中文
--- @return number,返回字符串长度
--- @usage local cnt = string.utf8Len("中国"),str = 2
-function string.utf8Len(str)
-    local len = #str
-    local left = len
-    local cnt = 0
-    local arr = {0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc}
-    while left ~= 0 do
-        local tmp = string.byte(str, -left)
-        local i = #arr
-        while arr[i] do
-            if tmp >= arr[i] then
-                left = left - i
-                break
-            end
-            i = i - 1
-        end
-        cnt = cnt + 1
+-- 和校验
+-- @string str 需要校验的字符串
+-- @string number 1为返回1个字节，2为返回2个字节
+-- @retrun 返回和校验结果
+-- @usage string.checkSum("1234",1)
+function string.checkSum(str, num)
+    assert(type(str) == "string", "The first argument is not a string!")
+    local sum = 0
+    for i = 1, #str do
+        sum = sum + str:sub(i, i):byte()
     end
-    return cnt
+    if num == 2 then
+        return sum % 0x10000
+    else
+        return sum % 0x100
+    end
 end
--- 将一个字符转为urlEncode编码
-local function urlEncodeChar(c)
-    return "%" .. string.format("%02X", string.byte(c))
-end
---- 返回字符串的urlEncode编码
--- @string str，要转换编码的字符串
--- @return str,urlEncode编码的字符串
--- @usage string.urlEncode("####133")
-function string.urlEncode(str)
-    return string.gsub(string.gsub(string.gsub(tostring(str), "\n", "\r\n"), "([^%w%.%- ])", urlEncodeChar), " ", "+")
-end
+
