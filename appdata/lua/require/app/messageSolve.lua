@@ -82,6 +82,12 @@ local apps = {
                 if not html or html == "" then
                     table.insert(result,"上次升级请求信息查询失败")
                 else
+                    if html:find("%[%]") then
+                        html = apiHttpGet("https://iot.openluat.com/api/site/device/"..imei.."/upgrade_record?t1=0&t2="..os.time().."&page=0&page_size=1&prefail=1",nil,nil,cookie)
+                        if not html or html == "" then
+                            html = "none"
+                        end
+                    end
                     local d,r,e  = jsonDecode(html)
                     if r and d then
                         if #d.data.records ~= 0 then
