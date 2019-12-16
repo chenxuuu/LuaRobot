@@ -30,6 +30,7 @@ local apps = {
             if d["error"] == 0 then
                 table.insert(replyResult,(group and cqCode_At(qq).."\r\n" or "")..
                 "IMEI:"..d.imei.."\r\n"..
+                "出厂固件:"..(d.firmware_file:match("(AirM2M_.+)%.rar") or "无记录").."\r\n"..
                 "工单号:"..d.order_id.."\r\n"..
                 "袋号:"..d.packed_packet_id.."\r\n"..
                 "包装(真空袋):"..(d.packed_packet == 1 and "通过 "..d.packed_packet_time or "无数据").."\r\n"..
