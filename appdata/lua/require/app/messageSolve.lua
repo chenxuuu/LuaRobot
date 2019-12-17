@@ -14,6 +14,27 @@ end
 
 --所有需要运行的app
 local apps = {
+    {--查下次的人
+        check = function ()
+            return msg:find("%[CQ:at,qq="..cqGetLoginQQ().."%]") and group == 941645382
+        end,
+        run = function ()
+            local listF = require("app.helpList")
+            local list = listF(os.time())--获取一周的
+            local listm = {
+                "下面是这七天的值班顺序：",
+                "周日"..cqCode_At(list[1]),
+                "周一"..cqCode_At(list[2]),
+                "周二"..cqCode_At(list[3]),
+                "周三"..cqCode_At(list[4]),
+                "周四"..cqCode_At(list[5]),
+                "周五"..cqCode_At(list[6]),
+                "周六"..cqCode_At(list[7]),
+            }
+            sendMessage(table.concat(listm, "\r\n"))
+            return true
+        end,
+    },
     {--查imei记录
         check = function ()
             return (msg:find("%[CQ:at,qq="..cqGetLoginQQ().."%]") or not group)
