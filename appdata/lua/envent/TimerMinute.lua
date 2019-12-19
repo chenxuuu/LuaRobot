@@ -83,45 +83,68 @@ function checkGitRelease(url,save)
     end
 end
 
+local Groups = {
+    423804427,--2
+    851800257,--4g
+    --952343033,--irtu
+    201848376,
+    604902189,--1
+    670342655,--task
+}
+
 --检查GitHub项目是否有更新
 if time.min % 10 == 0 then--十分钟检查一次
     local r,t = checkGitHub("https://github.com/openLuat/Luat_2G_RDA_8955/commits/master.atom","2g")
     if r and t then
         local text = "发现2G lua代码在GitHub上有更新\r\n"..t
-        cqSendGroupMessage(952343033, text)
-        cqSendGroupMessage(604902189, text)
-        cqSendGroupMessage(670342655, text)
+        for i=1,#Groups do
+            cqSendGroupMessage(Groups[i], text)
+        end
     end
     r,t = checkGitHub("https://github.com/openLuat/Luat_4G_ASR_1802/commits/master.atom","4g")
     if r and t then
-        local text = "发现4G lua代码在GitHub上有更新\r\n"..t
-        cqSendGroupMessage(952343033, text)
-        cqSendGroupMessage(604902189, text)
-        cqSendGroupMessage(670342655, text)
-        cqSendGroupMessage(851800257, text)--4g群
+        local text = "发现4G 1802 lua代码在GitHub上有更新\r\n"..t
+        for i=1,#Groups do
+            cqSendGroupMessage(Groups[i], text)
+        end
+    end
+
+    r,t = checkGitHub("https://github.com/openLuat/Luat_4G_ASR_1802S/commits/master.atom","4gs")
+    if r and t then
+        local text = "发现4G 1802s lua代码在GitHub上有更新\r\n"..t
+        for i=1,#Groups do
+            cqSendGroupMessage(Groups[i], text)
+        end
+    end
+
+    r,t = checkGitRelease("https://api.github.com/repos/openLuat/Luat_2G_RDA_8955/releases/latest","2gRelease")
+    if r and t then
+        local text = "发现2g底层在GitHub上更新\r\n"..t
+        for i=1,#Groups do
+            cqSendGroupMessage(Groups[i], text)
+        end
+    end
+
+    r,t = checkGitRelease("https://api.github.com/repos/openLuat/Luat_4G_ASR_1802/releases/latest","4gRelease")
+    if r and t then
+        local text = "发现4g 1802底层在GitHub上更新\r\n"..t
+        for i=1,#Groups do
+            cqSendGroupMessage(Groups[i], text)
+        end
+    end
+
+    r,t = checkGitRelease("https://api.github.com/repos/openLuat/Luat_4G_ASR_1802S/releases/latest","4gsRelease")
+    if r and t then
+        local text = "发现4g 1802s底层在GitHub上更新\r\n"..t
+        for i=1,#Groups do
+            cqSendGroupMessage(Groups[i], text)
+        end
     end
 
     r,t = checkGitHub("https://github.com/Jie2GG/Native.Csharp.Frame/commits/Final.atom","Native.sdk")
     if r and t then
         local text = "发现sdk代码在GitHub上有更新\r\n"..t
         cqSendGroupMessage(711841640, text)
-    end
-
-    r,t = checkGitRelease("https://api.github.com/repos/openLuat/Luat_2G_RDA_8955/releases/latest","2gRelease")
-    if r and t then
-        local text = "发现2g底层在GitHub上更新\r\n"..t
-        cqSendGroupMessage(952343033, text)
-        cqSendGroupMessage(604902189, text)
-        cqSendGroupMessage(670342655, text)
-    end
-
-    r,t = checkGitRelease("https://api.github.com/repos/openLuat/Luat_4G_ASR_1802/releases/latest","4gRelease")
-    if r and t then
-        local text = "发现4g底层在GitHub上更新\r\n"..t
-        cqSendGroupMessage(952343033, text)
-        cqSendGroupMessage(604902189, text)
-        cqSendGroupMessage(670342655, text)
-        cqSendGroupMessage(851800257, text)--4g群
     end
 end
 
