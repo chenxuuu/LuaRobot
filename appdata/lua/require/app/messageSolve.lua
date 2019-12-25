@@ -2,6 +2,13 @@
 local msg,qq,group,id = nil,nil,nil,nil
 local handled = false
 
+--保存日志信息
+local function saveLog(g,t)
+    local f = io.open([[D:\]]..tostring(g)..".txt","a")
+    f:write(os.date("[%Y-%m-%d %H:%M:%S]",os.time())..tostring(t).."\n")
+    f:close()
+end
+
 --发送消息
 --自动判断群聊与私聊
 function sendMessage(s)
@@ -147,6 +154,27 @@ local apps = {
 return function (inmsg,inqq,ingroup,inid)
     msg,qq,group,id = inmsg,inqq,ingroup,inid
 
+    local Groups = {
+        423804427,--2
+        851800257,--4g
+        952343033,--irtu
+        201848376,
+        604902189,--1
+        670342655,--task
+        59994612,--测试群
+    }
+
+    for i=1,#Groups do
+        if Groups[i] == ingroup then
+            saveLog(ingroup,"["..tostring(inqq).."]"..inmsg)
+            local oldsendMessage = sendMessage
+            sendMessage = function (s)
+                oldsendMessage(s)
+                saveLog(ingroup,"[机器人回复]"..tostring(s))
+            end
+            break
+        end
+    end
     --遍历所有功能
     for i=1,#apps do
         if apps[i].check and apps[i].check() then
