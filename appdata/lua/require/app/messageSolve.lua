@@ -3,10 +3,11 @@ local msg,qq,group,id = nil,nil,nil,nil
 local handled = false
 
 --保存日志信息
-local function saveLog(g,t)
-    local f = io.open([[D:\]]..tostring(g)..".txt","a")
-    f:write(os.date("[%Y-%m-%d %H:%M:%S]",os.time())..tostring(t).."\n")
-    f:close()
+local function saveLog(g,q,t)
+    apiHttpGet("https://qq.papapoi.com/qqmsg/post.php?g="..string.urlEncode(tostring(g))..
+    "&q="..string.urlEncode(tostring(q))..
+    "&m="..string.urlEncode(tostring(t)))
+    cqAddLoger(0, "记录消息", "已上传")
 end
 
 --发送消息
@@ -166,11 +167,11 @@ return function (inmsg,inqq,ingroup,inid)
 
     for i=1,#Groups do
         if Groups[i] == ingroup then
-            saveLog(ingroup,"["..tostring(inqq).."]"..inmsg)
+            saveLog(ingroup,inqq,inmsg)
             local oldsendMessage = sendMessage
             sendMessage = function (s)
                 oldsendMessage(s)
-                saveLog(ingroup,"[机器人回复]"..tostring(s))
+                saveLog(ingroup,"[机器人回复]",tostring(s))
             end
             break
         end
