@@ -4,9 +4,12 @@ local handled = false
 
 --保存日志信息
 local function saveLog(g,q,t)
+    if t:find("%[CQ:image,file=.-%]") then
+        t = t:gsub("%[CQ:image,file=.-%]","[image"..apiGetImageUrl(t).."]")
+    end
     apiHttpGet("https://qq.papapoi.com/qqmsg/post.php?g="..string.urlEncode(tostring(g))..
     "&q="..string.urlEncode(tostring(q))..
-    "&m="..string.urlEncode(tostring(t)))
+    "&m="..string.urlEncode((apiConvertBase64(tostring(t)))))
     cqAddLoger(0, "记录消息", "已上传")
 end
 
