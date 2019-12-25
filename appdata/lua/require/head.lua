@@ -126,3 +126,10 @@ function img:get()
 end
 
 
+--获取群成员信息
+local oldcqGetMemberInfo = cqGetMemberInfo
+cqGetMemberInfo = function (g,q,a)
+    local r = {}
+    if not a then a = false end
+    return oldcqGetMemberInfo(r,g,q,a)
+end

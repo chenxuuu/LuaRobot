@@ -4,8 +4,15 @@ local handled = false
 
 --保存日志信息
 local function saveLog(g,q,t)
-    if t:find("%[CQ:image,file=.-%]") then
-        t = t:gsub("%[CQ:image,file=.-%]","[image"..apiGetImageUrl(t).."]")
+    local temp = 1
+    while temp < #t do
+        local ss,ee = t:find("%[CQ:image,file=.-%]",temp)
+        if ss then
+            t = t:gsub("%[CQ:image,file=.-%]","[image"..apiGetImageUrl(t:sub(ss,ee)).."]",1)
+            temp = ee
+        else
+            break
+        end
     end
     apiHttpGet("https://qq.papapoi.com/qqmsg/post.php?g="..string.urlEncode(tostring(g))..
     "&q="..string.urlEncode(tostring(q))..
@@ -170,7 +177,7 @@ return function (inmsg,inqq,ingroup,inid)
 
     for i=1,#Groups do
         if Groups[i] == ingroup then
-            saveLog(ingroup,inqq,inmsg)
+            saveLog(ingroup,cqGetMemberInfo(ingroup,inqq).Nick.."("..tostring(inqq)..")",inmsg)
             local oldsendMessage = sendMessage
             sendMessage = function (s)
                 oldsendMessage(s)
