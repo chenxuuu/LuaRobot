@@ -16,7 +16,7 @@ run = function (data,sendMessage)
             sendMessage(table.concat(r,"  "))
         end
         local result, info = pcall(function ()
-            load(Utils.CQDeCode(data.msg:sub(5)))()
+            load(Utils.CQDeCode(data.msg:sub(7)))()
         end)
         print = oldprint--改回来
         if result then
@@ -26,8 +26,9 @@ run = function (data,sendMessage)
         end
     else
         local code = Utils.CQDeCode(data.msg)
+        local result = Utils.RunSandBox(code)
         sendMessage((LuaEnvName ~= "private" and Utils.CQCode_At(data.qq).."\r\n" or "")..
-                    Utils.CQEnCode(Utils.RunSandBox(code)))
+                    Utils.CQEnCode(result))
         return true
     end
     return true

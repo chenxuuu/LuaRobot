@@ -32,6 +32,8 @@ check = function (data)
     end
 end,
 run = function (data,sendMessage)
-    saveLog(data.group,tostring(data.qq),data.msg)
+    sys.taskInit(function()
+        saveLog(data.group,tostring(data.qq),data.msg)
+    end)
 end
 }

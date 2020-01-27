@@ -1,7 +1,7 @@
 return {
 check = function (data)
     if LuaEnvName == "private" or data.msg:find("%[CQ:at,qq="..CQApi:GetLoginQQId().."%]") then
-        local imei = data.msg:gsub("%[CQ:.-%]",""):find("%d")
+        local imei = data.msg:gsub("%[CQ:.-%]",""):match("%d+")
         return imei and imei:len() == 15
     end
 end,
