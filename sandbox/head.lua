@@ -1,11 +1,14 @@
 --加上需要require的路径
-local rootPath = apiGetAsciiHex(apiGetPath())
+import("com.papapoi.ReceiverMeow","Native.Csharp.App.LuaEnv")
+import("com.papapoi.ReceiverMeow","Native.Csharp.App.Common")
+--加上需要require的路径
+local rootPath = Utils.GetAsciiHex(AppData.CQApi.AppDirectory)
 rootPath = rootPath:gsub("[%s%p]", ""):upper()
 rootPath = rootPath:gsub("%x%x", function(c)
                                     return string.char(tonumber(c, 16))
                                 end)
 package.path = package.path..
-";"..rootPath.."/data/app/com.papapoi.ReceiverMeow/lua/require/sandbox/?.lua"
+";"..rootPath.."lua/sandbox/?.lua;"
 
 JSONLIB = require("JSON")
 utils = require("utils")
@@ -56,7 +59,7 @@ json = {
 
 local runCount = 0
 local start = os.time()
-function trace (event, line)
+local function trace (event, line)
     runCount = runCount + 1
     if runCount > 100000 then
         error("运行代码量超过阈值")
@@ -82,8 +85,6 @@ pack = {
         return table.unpack(t)
     end,
 }
-
-unpack = table.unpack
 
 BIT = require("bit")
 bit = BIT.bit32

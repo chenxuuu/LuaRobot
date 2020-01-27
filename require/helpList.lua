@@ -14,8 +14,9 @@ local mo = {
 
 return function (time)
     local t = os.date("*t",time)
-    local day = t.yday - t.wday--取整，每周唯一的某一天
-    math.randomseed(day+t.year*1000)--固定随机数种子，使结果保持一致性
+    t.hour = 0 t.min = 0 t.sec = 0
+    local ts = os.time(t) - t.wday*3600*24--取整，每周唯一的某一天
+    math.randomseed(ts)--固定随机数种子，使结果保持一致性
 
     table.insert(members,1,table.remove(mo,math.random(1,#mo)))--周日
     table.insert(members,table.remove(mo,math.random(1,#mo)))--周六
