@@ -25,6 +25,11 @@ local Groups = {
     59994612,--测试群
 }
 
+local function getName(group,qq)
+    local info = Utils.GetGroupMemberInfo(group,qq,false)
+    return info.Card ~= "" and info.Card or info.Nick
+end
+
 return {
 check = function (data)
     for i=1,#Groups do
@@ -33,7 +38,7 @@ check = function (data)
 end,
 run = function (data,sendMessage)
     sys.taskInit(function()
-        saveLog(data.group,tostring(data.qq),data.msg)
+        saveLog(data.group,getName(data.group,data.qq).."("..tostring(data.qq)..")",data.msg)
     end)
 end
 }
