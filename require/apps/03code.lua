@@ -1,9 +1,9 @@
 return {--测试代码
 check = function (data)
-    return data.msg:find("--lua") == 1 or LuaEnvName == "private"
+    return data.msg:find("%-%-lua") == 1 or LuaEnvName == "private"
 end,
 run = function (data,sendMessage)
-    if data.qq == Utils.setting.AdminQQ and data.msg:find("--lua#") == 1 then
+    if data.qq == Utils.setting.AdminQQ and data.msg:find("%-%-lua#") == 1 then
         local oldprint = print--临时更改print操作
         print = function (...)
             local r = {}
