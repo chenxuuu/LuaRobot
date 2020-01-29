@@ -11,7 +11,7 @@ local function saveLog(g,q,t)
     end
     asyncHttpGet("https://qq.papapoi.com/qqmsg/post.php?g="..string.urlEncode(tostring(g))..
     "&q="..string.urlEncode(tostring(q))..
-    "&m="..string.urlEncode((Utils.ConvertBase64(tostring(t)))))
+    "&m="..string.urlEncode((Utils.ConvertBase64(Utils.CQDeCode(t)))))
     print("已上传消息记录")
 end
 

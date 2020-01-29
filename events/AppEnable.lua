@@ -71,25 +71,27 @@ return function ()
             CQLog:Debug("lua插件","定时任务，延时"..delay.."秒")
             sys.wait(delay * 1000)
 
-            local time = os.date("*t")
-            local listF = require("helpList")
-            local list = listF(os.time()+3600*24)--获取明天的
-            if time.wday == 7 then--周六了
-                local listm = {
-                    "下面七天的值班顺序：",
-                    "周日"..Utils.CQCode_At(list[1]),
-                    "周一"..Utils.CQCode_At(list[2]),
-                    "周二"..Utils.CQCode_At(list[3]),
-                    "周三"..Utils.CQCode_At(list[4]),
-                    "周四"..Utils.CQCode_At(list[5]),
-                    "周五"..Utils.CQCode_At(list[6]),
-                    "周六"..Utils.CQCode_At(list[7]),
-                }
-                CQApi:SendGroupMessage(941645382, table.concat(listm, "\r\n"))
+            if XmlApi.Get("settings","help_notify") == "on" then
+                local time = os.date("*t")
+                local listF = require("helpList")
+                local list = listF(os.time()+3600*24)--获取明天的
+                if time.wday == 7 then--周六了
+                    local listm = {
+                        "下面七天的值班顺序：",
+                        "周日"..Utils.CQCode_At(list[1]),
+                        "周一"..Utils.CQCode_At(list[2]),
+                        "周二"..Utils.CQCode_At(list[3]),
+                        "周三"..Utils.CQCode_At(list[4]),
+                        "周四"..Utils.CQCode_At(list[5]),
+                        "周五"..Utils.CQCode_At(list[6]),
+                        "周六"..Utils.CQCode_At(list[7]),
+                    }
+                    CQApi:SendGroupMessage(941645382, table.concat(listm, "\r\n"))
+                end
+                local day = time.wday + 1
+                if day == 8 then day = 1 end
+                CQApi:SendGroupMessage(941645382, "明天应由"..Utils.CQCode_At(list[day]).."值班")
             end
-            local day = time.wday + 1
-            if day == 8 then day = 1 end
-            CQApi:SendGroupMessage(941645382, "明天应由"..Utils.CQCode_At(list[day]).."值班")
 
             CQLog:Debug("lua插件","定时任务开始执行")
         end
@@ -101,10 +103,12 @@ return function ()
             CQLog:Debug("lua插件","定时任务，延时"..delay.."秒")
             sys.wait(delay * 1000)
 
-            local time = os.date("*t")
-            local listF = require("helpList")
-            local list = listF(os.time())--获取今天的
-            CQApi:SendGroupMessage(941645382, "今天应由"..Utils.CQCode_At(list[time.wday]).."值班")
+            if XmlApi.Get("settings","help_notify") == "on" then
+                local time = os.date("*t")
+                local listF = require("helpList")
+                local list = listF(os.time())--获取今天的
+                CQApi:SendGroupMessage(941645382, "今天应由"..Utils.CQCode_At(list[time.wday]).."值班")
+            end
 
             CQLog:Debug("lua插件","定时任务开始执行")
         end
