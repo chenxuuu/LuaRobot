@@ -78,10 +78,9 @@ return function ()
                 if l == 0 then--一轮了
                     local listm = {"下面是五天的值班顺序："}
                     for i=1,5 do
-                        table.insert(listm,
+                        table.insert(listm,"第"..i.."天"..
                             Utils.CQCode_At(list[i*2])..
-                            Utils.CQCode_At(list[i*2-1])..
-                            "第"..i.."天"
+                            Utils.CQCode_At(list[i*2-1])
                         )
                     end
                     CQApi:SendGroupMessage(941645382, table.concat(listm, "\r\n"))

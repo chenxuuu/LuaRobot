@@ -14,10 +14,10 @@ run = function (data,sendMessage)
         local list,l = listF(os.time())--获取五天的
         local listm = {"下面是五天的值班顺序："}
         for i=1,5 do
-            table.insert(listm,
+            table.insert(listm,"第"..i.."天"..
                 Utils.CQCode_At(list[i*2])..
                 Utils.CQCode_At(list[i*2-1])..
-                (i == l and "今天" or "第"..i.."天")
+                (i == l and "（今天）" or "")
             )
         end
         table.insert(listm,"今日日期："..os.date("%Y-%m-%d"))
