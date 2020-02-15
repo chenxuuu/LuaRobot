@@ -75,7 +75,7 @@ return function ()
                 local time = os.date("*t")
                 local listF = require("helpList")
                 local list,l = listF(os.time()+3600*24)--获取明天的
-                if l == 0 then--一轮了
+                if l == 1 then--一轮了
                     local listm = {"下面是五天的值班顺序："}
                     for i=1,5 do
                         table.insert(listm,"第"..i.."天"..
