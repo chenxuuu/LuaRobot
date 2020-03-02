@@ -11,16 +11,17 @@ run = function (data,sendMessage)
         sendMessage("自动提醒已关闭")
     else
         local listF = require("helpList")
-        local list,l = listF(os.time())--获取五天的
-        local listm = {"下面是五天的值班顺序："}
-        for i=1,5 do
-            table.insert(listm,"第"..i.."天"..
-                Utils.CQCode_At(list[i*2])..
-                Utils.CQCode_At(list[i*2-1])..
-                (i == l and "（今天）" or "")
-            )
-        end
-        table.insert(listm,"今日日期："..os.date("%Y-%m-%d"))
+        local list = listF(os.time())--获取一周的
+        local listm = {
+            "下面是这七天的值班顺序：",
+            "周日"..Utils.CQCode_At(list[1]),
+            "周一"..Utils.CQCode_At(list[2]),
+            "周二"..Utils.CQCode_At(list[3]),
+            "周三"..Utils.CQCode_At(list[4]),
+            "周四"..Utils.CQCode_At(list[5]),
+            "周五"..Utils.CQCode_At(list[6]),
+            "周六"..Utils.CQCode_At(list[7]),
+        }
         sendMessage(table.concat(listm, "\r\n")..
             "\r\n自动提醒状态："..XmlApi.Get("settings","help_notify"))
     end
