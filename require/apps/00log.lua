@@ -22,7 +22,7 @@ local Groups = {
     201848376,
     604902189,--1
     670342655,--task
-    59994612,--测试群
+    1092305811,--cat1
 }
 
 local function getName(group,qq)
