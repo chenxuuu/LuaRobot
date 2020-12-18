@@ -1,20 +1,9 @@
 --加上需要require的路径
-import("com.papapoi.ReceiverMeow","Native.Csharp.App.LuaEnv")
-import("com.papapoi.ReceiverMeow","Native.Csharp.App.Common")
---加上需要require的路径
-local rootPath = Utils.GetAsciiHex(AppData.CQApi.AppDirectory)
-rootPath = rootPath:gsub("[%s%p]", ""):upper()
-rootPath = rootPath:gsub("%x%x", function(c)
-                                    return string.char(tonumber(c, 16))
-                                end)
 package.path = package.path..
-";"..rootPath.."lua/sandbox/?.lua;"
+";./lua/sandbox/?.lua;"
 
 JSONLIB = require("JSON")
 utils = require("utils")
-
---加强随机数随机性
-math.randomseed(tostring(os.time()):reverse():sub(1, 6))
 
 local less = false
 local maxLine = 10
@@ -58,21 +47,21 @@ json = {
 }
 
 do
-    local runCount = 0
-    local start = os.time()
-    local ot = os.time
-    local e = error
-    local function trace (event, line)
-        runCount = runCount + 1
-        if runCount > 100000 then
-            e("运行代码量超过阈值")
-        end
-        if ot() - start >= 5 then
-            e("代码运行超时")
-        end
+local runCount = 0
+local start = os.time()
+local ot = os.time
+local e = error
+local function trace (event, line)
+    runCount = runCount + 1
+    if runCount > 100000 then
+        e("运行代码量超过阈值")
     end
-    debug.sethook(trace, "l")
+    if ot() - start >= 5 then
+        e("代码运行超时")
     end
+end
+debug.sethook(trace, "l")
+end
 
 loadstring = load
 

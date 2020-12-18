@@ -3,7 +3,7 @@ check = function (data)
     return data.msg:find("%-%-lua") == 1 or LuaEnvName == "private"
 end,
 run = function (data,sendMessage)
-    if data.qq == Utils.setting.AdminQQ and data.msg:find("%-%-lua#") == 1 then
+    if data.qq == Utils.Setting.AdminQQ and data.msg:find("%-%-lua#") == 1 then
         local oldprint = print--临时更改print操作
         print = function (...)
             local r = {}
@@ -16,19 +16,19 @@ run = function (data,sendMessage)
             sendMessage(table.concat(r,"  "))
         end
         local result, info = pcall(function ()
-            load(Utils.CQDeCode(data.msg:sub(7)))()
+            load(CQ.Decode(data.msg:sub(7)))()
         end)
         print = oldprint--改回来
         if result then
-            sendMessage(Utils.CQCode_At(data.qq).."成功运行")
+            sendMessage(cq.code.at(data.qq).."成功运行")
         else
-            sendMessage(Utils.CQCode_At(data.qq).."运行失败\r\n"..tostring(info))
+            sendMessage(cq.code.at(data.qq).."运行失败\r\n"..tostring(info))
         end
     else
-        local code = Utils.CQDeCode(data.msg)
+        local code = CQ.Decode(data.msg)
         local result = Utils.RunSandBox(code)
-        sendMessage((LuaEnvName ~= "private" and Utils.CQCode_At(data.qq).."\r\n" or "")..
-                    Utils.CQEnCode(result))
+        sendMessage((LuaEnvName ~= "private" and cq.code.at(data.qq).."\r\n" or "")..
+                    CQ.Encode(result))
         return true
     end
     return true

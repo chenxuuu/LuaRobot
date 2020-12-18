@@ -1,7 +1,7 @@
 --自动读取apps目录，加载所有功能
 local apps = {}
 import("System.IO")
-local AppList = Directory.GetFiles(CQApi.AppDirectory.."lua/require/apps/")
+local AppList = Directory.GetFiles(Utils.Path.."lua/require/apps/")
 
 --按文件名排序
 local tempList = {}
@@ -19,7 +19,7 @@ for i=1,#tempList do
     local _,info = pcall(function() t = require("apps."..tempList[i]) end)
     if t then
         table.insert(apps,t)
-        CQLog:Debug("lua插件",LuaEnvName.."加载app："..tempList[i])
+        Log.Debug(StateName,LuaEnvName.."加载app："..tempList[i])
     end
 end
 tempList = nil--释放临时table
@@ -28,10 +28,11 @@ return function (data)
     --封装一个发送消息接口
     --自动判断群聊与私聊
     local function sendMessage(s)
+        print("send",s)
         if LuaEnvName ~= "private" then
-            CQApi:SendGroupMessage(data.group,s)
+            cq.sendGroupMsg(data.group,s)
         else
-            CQApi:SendPrivateMessage(data.qq,s)
+            cq.sendPrivateMsg(data.qq,s)
         end
     end
 

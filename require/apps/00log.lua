@@ -3,7 +3,7 @@ local function saveLog(g,q,t)
     while temp < #t do
         local ss,ee = t:find("%[CQ:image,file=.-%]",temp)
         if ss then
-            t = t:gsub("%[CQ:image,file=.-%]","[image"..Utils.GetImageUrl(t:sub(ss,ee)).."]",1)
+            t = t:gsub("%[CQ:image,file=.-%]","[image"..t:match("%[CQ:image,file=(.-)%]").."]",1)
             temp = ee
         else
             break
@@ -11,7 +11,7 @@ local function saveLog(g,q,t)
     end
     asyncHttpGet("https://qq.papapoi.com/qqmsg/post.php?g="..string.urlEncode(tostring(g))..
     "&q="..string.urlEncode(tostring(q))..
-    "&m="..string.urlEncode((Utils.ConvertBase64(Utils.CQDeCode(t)))))
+    "&m="..string.urlEncode((Utils.ConvertBase64(CQ.Decode(t)))))
     print("已上传消息记录")
 end
 
@@ -26,8 +26,8 @@ local Groups = {
 }
 
 local function getName(group,qq)
-    local info = Utils.GetGroupMemberInfo(group,qq,false)
-    return info.Card ~= "" and info.Card or info.Nick
+    local info = cq.groupMemberInfo(group,qq)
+    return info.card ~= "" and info.card or info.nickname
 end
 
 return {
