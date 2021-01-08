@@ -1,9 +1,9 @@
 local function saveLog(g,q,t)
     local temp = 1
     while temp < #t do
-        local ss,ee = t:find("%[CQ:image,file=.-%]",temp)
+        local ss,ee = t:find("%[CQ:image,file=.-,url=.-%]",temp)
         if ss then
-            t = t:gsub("%[CQ:image,file=.-%]","[image"..t:match("%[CQ:image,file=(.-)%]").."]",1)
+            t = t:gsub("%[CQ:image,file=.-%]","[image"..t:match("%[CQ:image,file=.-,url=(.-)%]").."]",1)
             temp = ee
         else
             break
