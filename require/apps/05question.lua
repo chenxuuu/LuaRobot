@@ -17,7 +17,8 @@ check = function (data)
 end,
 run = function (data,sendMessage)
     --原始信息
-    local m = CQ.Decode(data.msg:gsub("%[CQ:.-%]"," "))
+    local m = data.msg:gsub("%[CQ:.-%]"," ")
+    m = CQ.Decode(m)
 
     local f
     for i,j in pairs(d) do
