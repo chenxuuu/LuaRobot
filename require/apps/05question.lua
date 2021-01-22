@@ -4,9 +4,9 @@ local robot_qq = cq.loginInfo().qq
 --触发列表
 local d = {
     ["低功耗"] = {
-        ["cat1"] = "合宙Cat1超低功耗方案：屑.㏄/㓢",
-        ["cat4"] = "低功耗实践指南：屑.㏄/贳",
-        ["2g"] = "低功耗实践指南：屑.㏄/贳",
+        ["cat1"] = "合宙Cat1超低功耗方案http://ask.openluat.com/article/2081/0",
+        ["cat4"] = "低功耗实践指南http://ask.openluat.com/article/437/0",
+        ["2g"] = "低功耗实践指南http://ask.openluat.com/article/437/0",
     },
 }
 
