@@ -15,15 +15,7 @@ local function saveLog(g,q,t)
     print("已上传消息记录")
 end
 
-local Groups = {
-    423804427,--2
-    851800257,--4g
-    952343033,--irtu
-    201848376,
-    604902189,--1
-    670342655,--task
-    1092305811,--cat1
-}
+local Groups = dofile("luat_groups")
 
 local function getName(group,qq)
     local info = cq.groupMemberInfo(group,qq)
