@@ -27,7 +27,6 @@ return function (data)
     --封装一个发送消息接口
     --自动判断群聊与私聊
     local function sendMessage(s)
-        print("send",s)
         if LuaEnvName ~= "private" then
             cq.sendGroupMsg(data.group,s)
         else

@@ -25,11 +25,8 @@ run = function (data,sendMessage)
             sendMessage(cq.code.at(data.qq).."运行失败\r\n"..tostring(info))
         end
     else
-        local code = CQ.Decode(data.msg)
-        local result = Utils.RunSandBox(code)
-        sendMessage((LuaEnvName ~= "private" and cq.code.at(data.qq).."\r\n" or "")..
-                    CQ.Encode(result))
-        return true
+        sendMessage(cq.code.at(data.qq).."\r\n"..
+            CQ.Encode(Utils.RunSandBox(CQ.Decode(data.msg:sub(6)))))
     end
     return true
 end
