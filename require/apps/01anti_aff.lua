@@ -4,7 +4,7 @@ return {--问问题
 check = function (data)
     --for i=1,#Groups do
     --    if Groups[i] == data.group then
-            return data.msg:find("curl.qcloud.com/.+") or data.msg:find("www.aliyun.com/.*userCode=.+")
+            return data.msg:upper():find("CURL.QCLOUD.COM/.+") or data.msg:upper():find("WWW.ALIYUN.COM/.*USERCODE=.+")
     --    end
     --end
 end,
