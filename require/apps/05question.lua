@@ -19,6 +19,7 @@ run = function (data,sendMessage)
     --原始信息
     local m = data.msg:gsub("%[CQ:.-%]"," ")
     m = CQ.Decode(m)
+    while m:sub(1,1) == " " do m = m:sub(2) end
 
     local f
     for i,j in pairs(d) do
@@ -38,7 +39,7 @@ run = function (data,sendMessage)
         end
     end
     if not f then
-        sendMessage(cq.code.at(data.qq).."没找到相关信息，搜一下？\r\nhttp://ask.openluat.com/search/"..m:urlEncode())
+        sendMessage(cq.code.at(data.qq).."没找到相关信息，搜一下？\r\nhttp://doc.openluat.com/search/"..m:urlEncode())
     end
     return true
 end
