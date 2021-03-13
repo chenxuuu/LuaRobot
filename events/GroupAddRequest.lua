@@ -15,15 +15,17 @@ return function (data)
             end
 
             local a,b = math.random(0,100),math.random(0,100)
-            cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
-            "欢迎加入本群，请在120秒内向我私聊发送答案，不然会被移出本群\r\n"..
+            local sent = cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
+            "欢迎加入本群，请在100秒内向我私聊发送答案，不然会被移出本群\r\n"..
                 "问题："..a.."+"..b.."等于多少？")
             XmlApi.Set("joinCheck",tostring(data.qq).."qq","wait")
             sys.wait(120*1000)
+            cq.deleteMsg(sent)
             if tonumber(XmlApi.Get("joinCheck",tostring(data.qq).."qq")) ~= a+b then
                 cq.groupKick(data.group,data.qq,false)
+            else
+                cq.groupBan(data.group,data.qq,0)
             end
-            cq.groupBan(data.group,data.qq,0)
             XmlApi.Delete("joinCheck",tostring(data.qq).."qq")
         end)
     end
