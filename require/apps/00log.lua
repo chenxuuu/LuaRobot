@@ -15,7 +15,7 @@ local function saveLog(g,q,t)
     print("已上传消息记录")
 end
 
-local Groups = dofile("luat_groups")
+local Groups = require("luat_groups")
 
 local function getName(group,qq)
     local info = cq.groupMemberInfo(group,qq)
