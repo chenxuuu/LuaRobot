@@ -15,7 +15,9 @@ return {--问问题
 check = function (data)
     for i=1,#Groups do
         if Groups[i] == data.group then
-            return data.msg:upper():find("CURL.QCLOUD.COM/.+") or data.msg:upper():find("WWW.ALIYUN.COM/.*USERCODE=.+")
+            return data.msg:upper():find("CURL.QCLOUD.COM/.+")
+            or data.msg:upper():find("WWW.ALIYUN.COM/.*USERCODE=.+")
+            or data.msg:upper():find("MI.ALIYUN.COM/SHOP/.+")
         end
     end
 end,
