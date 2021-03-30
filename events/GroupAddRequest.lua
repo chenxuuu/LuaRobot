@@ -1,6 +1,17 @@
+local function checkQQInfo(qq,msg)
+    local info = cq.qqInfo(qq)
+    if info.login_days < 60 or info.level < 20 then
+        return qq == tonumber(msg)
+    end
+end
+
 return function (data)
     if XmlApi.Get("joinCheck",tostring(data.group)) == "on"
         and XmlApi.Get("joinCheck",tostring(data.qq).."qq") == "" then
+        if not checkQQInfo(data.qq,data.msg) then
+            cq.groupAddRequest(data.tag,"add",false,"请在加群申请里写上自己的qq号，以证明你不是机器人")
+            return
+        end
         cq.groupAddRequest(data.tag,"add",true)
         sys.taskInit(function()
             sys.wait(1000)
