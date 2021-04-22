@@ -1,9 +1,10 @@
 local function checkQQInfo(qq,msg)
     local info = cq.qqInfo(qq)
-    if info.login_days < 60 or info.level < 20 then
-        return qq == tonumber(msg)
-    end
+    return info.login_days > 300 or
+        (info.login_days > 60 and info.level >= 20) or
+        (msg or ""):find(tostring(qq))
 end
+
 
 return function (data)
     if XmlApi.Get("joinCheck",tostring(data.group)) == "on"
