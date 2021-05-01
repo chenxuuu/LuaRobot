@@ -26,10 +26,10 @@ return function (data)
                 sys.wait(500)
             end
 
-            local a,b = math.random(0,10),math.random(0,10)
+            local a,b = math.random(0,10),os.date("*t").day
             local sent = cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
-            "欢迎加入本群，请在100秒内向我私聊发送答案，不然会被移出本群\r\n"..
-                "问题："..a.."+"..b.."等于多少？")
+            "欢迎加入本群，请在100秒内*私聊我*发送答案，不然会被移出本群\r\n"..
+                "问题："..a.."+今天的日期 等于多少？")
             XmlApi.Set("joinCheck",tostring(data.qq).."qq","wait")
             local pass
             for i=1,120 do
