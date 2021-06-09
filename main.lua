@@ -86,6 +86,16 @@ function HttpPost(url,para,timeout,cookie,contentType)
 end
 asyncHttpPost = HttpPost
 
+--封装一个简便的http jump接口
+function HttpJump(url,timeout,cookie)
+    local r,e = pcall(function() return Utils.HttpJump(url,timeout or 5000,cookie or "") end)
+    if r then
+        return e,r
+    else
+        return nil,r,e
+    end
+end
+
 --根据url显示图片
 function asyncImage(url)
     return cq.code.image(url)
