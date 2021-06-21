@@ -24,14 +24,9 @@ end,
 run = function (data,sendMessage)
     local check = cq.deleteMsg(data.id)
     if check ~= "ok" then
-        sendMessage("有人发广告，请及时处理。"..atAdmin(data.group))
+        sendMessage("有人发广告，撤回失败，请及时处理。"..atAdmin(data.group))
     else
-        if XmlApi.Get("aff",tostring(data.qq)) == "" then
-            XmlApi.Set("aff",tostring(data.qq),"warn")
-        else
-            cq.groupKick(data.group,data.qq,true)
-            XmlApi.Set("aff",tostring(data.qq),"kick")
-        end
+        cq.groupKick(data.group,data.qq,true)
     end
     return true
 end
