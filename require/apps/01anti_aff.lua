@@ -1,5 +1,11 @@
 local Groups = require("luat_groups")
 
+local affMatch = {
+    "CURL.QCLOUD.COM/.+",
+    "WWW.ALIYUN.COM/.*USERCODE=.+",
+    "MI.ALIYUN.COM/SHOP/.+",
+}
+
 local function atAdmin(g)
     local admins = {}
     local m = cq.groupMemberList(g)
@@ -11,13 +17,15 @@ local function atAdmin(g)
     return table.concat(admins," ")
 end
 
-return {--问问题
+return {--检查广告
 check = function (data)
     for i=1,#Groups do
         if Groups[i] == data.group then
-            return data.msg:upper():find("CURL.QCLOUD.COM/.+")
-            or data.msg:upper():find("WWW.ALIYUN.COM/.*USERCODE=.+")
-            or data.msg:upper():find("MI.ALIYUN.COM/SHOP/.+")
+            for _,j in pairs(affMatch) do
+                if data.msg:upper():find(j) then
+                    return true
+                end
+            end
         end
     end
 end,
@@ -28,6 +36,7 @@ run = function (data,sendMessage)
     else
         cq.groupKick(data.group,data.qq,true)
     end
+    XmlApi.Set("aff_qq",tostring(data.qq),"ad")
     return true
 end
 }
