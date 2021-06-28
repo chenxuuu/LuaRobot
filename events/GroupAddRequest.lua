@@ -31,17 +31,25 @@ return function (data)
             end
 
             local a,b = math.random(0,10),math.random(0,10)
-            local sent = cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
-            "欢迎加入本群，请在100秒内*私聊我*发送答案，不然会被移出本群\r\n"..
-                "问题："..a.."+"..b.."等于多少？")
+            local sent = {}
+            table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
+            "欢迎加入本群，请在300秒内*私聊我*发送答案，不然会被移出本群\r\n"..
+                "问题："..a.."+"..b.."等于多少？"))
             XmlApi.Set("joinCheck",tostring(data.qq).."qq","wait")
             local pass
-            for _=1,120 do
+            for i=1,300 do
                 sys.wait(1000)
                 pass = tonumber(XmlApi.Get("joinCheck",tostring(data.qq).."qq")) == a+b
                 if pass then break end
+                if i%60==0 and i~=300 then
+                    table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
+                    "请在"..tostring(300-i).."秒内\r\n*私聊我*\r\n发送答案"..string.rep("！",i/60).."\r\n"..
+                        "问题："..a.."+"..b.."等于多少？"))
+                end
             end
-            cq.deleteMsg(sent)
+            for _,j in pairs(sent) do
+                cq.deleteMsg(j)
+            end
             if pass then
                 cq.groupBan(data.group,data.qq,0)
             else
