@@ -1,3 +1,28 @@
+local groupName = {
+    [201848376] = "合宙群01",
+    [604902189] = "合宙群02",
+    [1092305811] = "合宙群03",
+    [877164555] = "合宙群04",
+    [851800257] = "合宙群05",
+    [387396364] = "合宙群06",
+    [423804427] = "合宙群07",
+    [823812859] = "合宙群08",
+    [679177589] = "WiFi群",
+    [967368887] = "合宙群10",
+    [627242078] = "合宙群11",
+    [799971630] = "合宙群12",
+    [151645843] = "合宙群13",
+    [710412579] = "合宙群14",
+    [553477984] = "合宙群15",
+    [952343033] = "iRTU1群",
+    [1027923658] = "iRTU2群",
+    [1061642968] = "LuatOS群",
+    [827963649] = "CPE群",
+    [489193389] = "GPSTracker群",
+    [221504157] = "训练营一期",
+    [1108271783] = "魔盒",
+}
+
 local function saveLog(g,q,t)
     local temp = 1
     while temp < #t do
@@ -32,10 +57,13 @@ run = function (data,sendMessage)
     sys.taskInit(function()
         saveLog(data.group,getName(data.group,data.qq).."("..tostring(data.qq)..")",data.msg)
     end)
-    Mqtt.Publish("luaRobot/message/"..data.group, jsonEncode({
-        group = tostring(data.group),
-        qq = tostring(data.qq),
-        msg = data.msg:gsub("%[.-%]","[特殊]"):sub(1,100),--限制前100字
-    }), 0)
+    if groupName[data.group] then
+        Mqtt.Publish("luaRobot/message/"..data.group, jsonEncode({
+            group = tostring(data.group),
+            qq = tostring(data.qq),
+            msg = data.msg:gsub("%[.-%]","[特殊]"):sub(1,100),--限制前100字
+            name = groupName[data.group],
+        }), 0)
+    end
 end
 }
