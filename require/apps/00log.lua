@@ -54,13 +54,14 @@ check = function (data)
     end
 end,
 run = function (data,sendMessage)
+    local qqName = getName(data.group,data.qq)
     sys.taskInit(function()
-        saveLog(data.group,getName(data.group,data.qq).."("..tostring(data.qq)..")",data.msg)
+        saveLog(data.group,qqName.."("..tostring(data.qq)..")",data.msg)
     end)
     if groupName[data.group] then
         Mqtt.Publish("luaRobot/message/"..data.group, jsonEncode({
             group = tostring(data.group),
-            qq = tostring(data.qq),
+            qq = qqName,
             msg = data.msg:gsub("%[.-%]","[特殊]"):sub(1,100),--限制前100字
             name = groupName[data.group],
         }), 0)
