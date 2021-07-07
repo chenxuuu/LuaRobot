@@ -10,12 +10,12 @@ local function getStarList()
     local list = {}
     local sinfo = HttpGet("https://gitee.com/api/v5/repos/hotdll/iRTU/stargazers?access_token="..XmlApi.Get("settings","gitee_token").."&page="..math.floor(count/10+1).."&per_page=10")
     local temp = jsonDecode(sinfo)
-    for i=1,#temp do
+    for i=#temp,1,-1 do
         table.insert(list,temp[i].name)
     end
     local sinfo = HttpGet("https://gitee.com/api/v5/repos/hotdll/iRTU/stargazers?access_token="..XmlApi.Get("settings","gitee_token").."&page="..math.floor(count/10).."&per_page=10")
     local temp = jsonDecode(sinfo)
-    for i=1,#temp do
+    for i=#temp,1,-1 do
         if #list >= 10 then break end
         table.insert(list,temp[i].name)
     end
