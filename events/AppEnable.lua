@@ -28,38 +28,42 @@ end
 local lastList = {}
 lastList = getStarList("hotdll/iRTU")
 sys.timerLoopStart(function ()
-    local list = getStarList("hotdll/iRTU")
-    for i=1,#list do
-        local match
-        for j=1,#lastList do
-            if lastList[j] == list[i] then
-                match = true
-                break
+    pcall(function ()
+        local list = getStarList("hotdll/iRTU")
+        for i=1,#list do
+            local match
+            for j=1,#lastList do
+                if lastList[j] == list[i] then
+                    match = true
+                    break
+                end
             end
+            if match then break end
+            cq.sendGroupMsg(952343033,list[i].."点了个小星星，谢谢~")
+            cq.sendGroupMsg(1027923658,list[i].."点了个小星星，谢谢~")
         end
-        if match then break end
-        cq.sendGroupMsg(952343033,list[i].."点了个小星星，谢谢~")
-        cq.sendGroupMsg(1027923658,list[i].."点了个小星星，谢谢~")
-    end
-    lastList = list
+        lastList = list
+    end)
 end, 1*60*1000)
 
 local lastListLuatOS = {}
 lastListLuatOS = getStarList("openLuat/LuatOS")
 sys.timerLoopStart(function ()
-    local list = getStarList("openLuat/LuatOS")
-    for i=1,#list do
-        local match
-        for j=1,#lastListLuatOS do
-            if lastListLuatOS[j] == list[i] then
-                match = true
-                break
+    pcall(function ()
+        local list = getStarList("openLuat/LuatOS")
+        for i=1,#list do
+            local match
+            for j=1,#lastListLuatOS do
+                if lastListLuatOS[j] == list[i] then
+                    match = true
+                    break
+                end
             end
+            if match then break end
+            cq.sendGroupMsg(1061642968,list[i].."给LuatOS项目点了个小星星，谢谢~")
         end
-        if match then break end
-        cq.sendGroupMsg(1061642968,list[i].."给LuatOS项目点了个小星星，谢谢~")
-    end
-    lastListLuatOS = list
+        lastListLuatOS = list
+    end)
 end, 1*60*1000)
 
 
