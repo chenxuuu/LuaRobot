@@ -19,7 +19,7 @@ local function getStarList()
         if #list >= 10 then break end
         table.insert(list,temp[i].name)
     end
-    return list
+    return "最近有这些朋友点了star：\r\n"..table.concat(list,"、").."\r\n现在有"..count.."个星星啦"
 end
 
 return {
@@ -40,7 +40,7 @@ run = function (data,sendMessage)
         sendMessage("感谢"..cq.code.at(qq).."朋友的star！")
     end
     if data.msg:lower() == "查star" then
-        sendMessage(cq.code.at(data.qq).."最近有这些朋友点了star：\r\n"..table.concat(getStarList(),"、"))
+        sendMessage(cq.code.at(data.qq)..getStarList())
     end
     return true
 end
