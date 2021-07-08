@@ -37,10 +37,9 @@ sys.timerLoopStart(function ()
                 break
             end
         end
-        if not match then
-            cq.sendGroupMsg(952343033,list[i].."点了个小星星，谢谢~")
-            cq.sendGroupMsg(1027923658,list[i].."点了个小星星，谢谢~")
-        end
+        if match then break end
+        cq.sendGroupMsg(952343033,list[i].."点了个小星星，谢谢~")
+        cq.sendGroupMsg(1027923658,list[i].."点了个小星星，谢谢~")
     end
     lastList = list
 end, 1*60*1000)
@@ -57,9 +56,8 @@ sys.timerLoopStart(function ()
                 break
             end
         end
-        if not match then
-            cq.sendGroupMsg(1061642968,list[i].."给LuatOS项目点了个小星星，谢谢~")
-        end
+        if match then break end
+        cq.sendGroupMsg(1061642968,list[i].."给LuatOS项目点了个小星星，谢谢~")
     end
     lastListLuatOS = list
 end, 1*60*1000)
