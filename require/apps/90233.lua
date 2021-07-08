@@ -36,7 +36,7 @@ run = function (data,sendMessage)
     end
     if data.msg:find("star") and admin[data.qq] and data.msg:find("CQ:at") then
         local qq = data.msg:match("(%d+)")
-        XmlApi.Set("starCheck",tostring(data.qq).."qq","ok")
+        XmlApi.Set("starCheck",tostring(qq).."qq","ok")
         sendMessage("感谢"..cq.code.at(qq).."朋友的star！")
     end
     if data.msg:lower() == "查star" then
