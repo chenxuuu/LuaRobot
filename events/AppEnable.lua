@@ -27,6 +27,8 @@ end
 
 local lastList = {}
 lastList = getStarList("hotdll/iRTU")
+local lastListLuatOS = {}
+lastListLuatOS = getStarList("openLuat/LuatOS")
 sys.timerLoopStart(function ()
     pcall(function ()
         local list = getStarList("hotdll/iRTU")
@@ -42,13 +44,10 @@ sys.timerLoopStart(function ()
             cq.sendGroupMsg(952343033,list[i].."点了个小星星，谢谢~")
             cq.sendGroupMsg(1027923658,list[i].."点了个小星星，谢谢~")
         end
-        lastList = list
+        if #list >= 10 then
+            lastList = list
+        end
     end)
-end, 1*60*1000)
-
-local lastListLuatOS = {}
-lastListLuatOS = getStarList("openLuat/LuatOS")
-sys.timerLoopStart(function ()
     pcall(function ()
         local list = getStarList("openLuat/LuatOS")
         for i=1,#list do
@@ -62,9 +61,10 @@ sys.timerLoopStart(function ()
             if match then break end
             cq.sendGroupMsg(1061642968,list[i].."给LuatOS项目点了个小星星，谢谢~")
         end
-        lastListLuatOS = list
+        if #list >= 10 then
+            lastListLuatOS = list
+        end
     end)
 end, 1*60*1000)
-
 
 end

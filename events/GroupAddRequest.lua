@@ -41,7 +41,7 @@ return function (data)
                 sys.wait(1000)
                 pass = tonumber(XmlApi.Get("joinCheck",tostring(data.qq).."qq")) == a+b
                 if pass then break end
-                if i%60==0 and i~=300 then
+                if i%100==0 and i~=300 then
                     table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
                     "请在"..tostring(300-i).."秒内\r\n*私聊我*\r\n发送答案"..string.rep("！",i/60).."\r\n"..
                         "问题："..a.."+"..b.."等于多少？"))
