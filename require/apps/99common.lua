@@ -9,8 +9,8 @@ run = function (data,sendMessage)
     local replyCommon = XmlApi.RandomGet("common",data.msg)
     if replyCommon ~= "" then
         sendMessage(replyCommon)
-        return false
+        return true
     end
-    return true
+    return false
 end
 }
