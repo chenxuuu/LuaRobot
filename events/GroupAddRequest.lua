@@ -43,7 +43,7 @@ return function (data)
                 if pass then break end
                 if i%100==0 and i~=300 then
                     table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
-                    "请在"..tostring(300-i).."秒内\r\n*私聊我*\r\n发送答案"..string.rep("！",i/60).."\r\n"..
+                    "请在"..tostring(300-i).."秒内\r\n*私聊我*\r\n发送答案"..string.rep("！",i/100).."\r\n"..
                         "问题："..a.."+"..b.."等于多少？"))
                 end
             end
