@@ -30,8 +30,6 @@ end
 
 local lastList = {}
 lastList = getStarList("hotdll/iRTU")
-local lastListLuatOS = {}
-lastListLuatOS = getStarList("openLuat/LuatOS")
 sys.timerLoopStart(function ()
     local r,e = pcall(function ()
         local list = getStarList("hotdll/iRTU")
@@ -53,28 +51,6 @@ sys.timerLoopStart(function ()
         end
         if #list >= 10 then
             lastList = list
-        end
-    end)
-    if not r then print(e) end
-    local r,e = pcall(function ()
-        local list = getStarList("openLuat/LuatOS")
-        Log.Info("lastListLuatOS",table.concat(lastListLuatOS,","))
-        Log.Info("list",table.concat(list,","))
-        if #lastListLuatOS ~= 0 then
-            for i=1,#list do
-                local match
-                for j=1,#lastListLuatOS do
-                    if lastListLuatOS[j] == list[i] then
-                        match = true
-                        break
-                    end
-                end
-                if match then break end
-                cq.sendGroupMsg(1061642968,list[i].."给LuatOS项目点了个小星星，谢谢~")
-            end
-        end
-        if #list >= 10 then
-            lastListLuatOS = list
         end
     end)
     if not r then print(e) end
