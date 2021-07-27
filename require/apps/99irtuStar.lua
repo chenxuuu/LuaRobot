@@ -27,7 +27,7 @@ check = function (data)
     return data.group == 1027923658 or data.group == 952343033
 end,
 run = function (data,sendMessage)
-    if XmlApi.Get("starCheck",tostring(data.qq).."qq") ~= "ok" and XmlApi.Get("starCheck",tostring(data.qq)) ~= tostring(math.floor(os.time()/(3600*24))) then
+    if XmlApi.Get("starCheck",tostring(data.qq).."qq") ~= "ok" and XmlApi.Get("starCheck",tostring(data.qq)) == "" then
         XmlApi.Set("starCheck",tostring(data.qq),tostring(math.floor(os.time()/(3600*24))))
         sendMessage("尊敬的"..cq.code.at(data.qq).."：\r\n"..
         "为了便于更好地提供支持服务，即日起，将只为给irtu的gitee项目点过star的用户进行免费支持，未点star的用户提问将忽略，禁止白嫖。\r\n"..
