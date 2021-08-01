@@ -4,6 +4,8 @@ local affMatch = {
     "CURL.QCLOUD.COM/.+",
     "WWW.ALIYUN.COM/.*USERCODE=.+",
     "MI.ALIYUN.COM/SHOP/.+",
+    "日赚%d",
+    "时赚%d",
 }
 
 local function atAdmin(g)
