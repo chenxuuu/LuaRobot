@@ -6,6 +6,8 @@ local affMatch = {
     "MI.ALIYUN.COM/SHOP/.+",
     "日赚%d",
     "时赚%d",
+    "流量卡.*[^%d]1%d%d%d%d%d%d%d%d%d%d",
+    "1%d%d%d%d%d%d%d%d%d%d[^%d].*流量卡",
 }
 
 local function atAdmin(g)

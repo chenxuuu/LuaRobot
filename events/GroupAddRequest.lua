@@ -8,12 +8,20 @@ end
 
 
 return function (data)
-    if XmlApi.Get("joinCheck",tostring(data.group)) == "on"
+    if  XmlApi.Get("joinCheck",tostring(data.group)) == "on"
         and XmlApi.Get("joinCheck",tostring(data.qq).."qq") == "" then
-        if not checkQQInfo(data.qq,data.msg) then
+
+        if XmlApi.Get("joinCheck",tostring(data.qq).."last") == "warn" or not checkQQInfo(data.qq,data.msg) then
             cq.groupAddRequest(data.tag,"add",false,"请在加群申请里写上自己的qq号，以证明你不是机器人，谢谢")
             return
         end
+        XmlApi.Delete("joinCheck",tostring(data.qq).."last")
+
+        if XmlApi.Get("aff_qq",tostring(data.qq)) == "ad" then
+            cq.groupAddRequest(data.tag,"add",false,"你因发广告而被永久禁止入群")
+            return
+        end
+
         cq.groupAddRequest(data.tag,"add",true)
 
         sys.taskInit(function()
@@ -28,7 +36,7 @@ return function (data)
                 sys.wait(500)
             end
 
-            local a,b = math.random(30,99),math.random(0,10)
+            local a,b = math.random(30,99),math.random(1,10)
             local sent = {}
             table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
             "欢迎加入本群，请在300秒内*私聊我*发送答案，不然会被移出本群\r\n"..
@@ -52,6 +60,7 @@ return function (data)
                 cq.groupBan(data.group,data.qq,0)
             else
                 cq.groupKick(data.group,data.qq,false)
+                XmlApi.Set("joinCheck",tostring(data.qq).."last","warn")
             end
             XmlApi.Delete("joinCheck",tostring(data.qq).."qq")
         end)
