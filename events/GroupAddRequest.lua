@@ -27,7 +27,7 @@ return function (data)
         sys.taskInit(function()
             sys.wait(1000)
             local count = 0
-            while cq.groupBan(data.group,data.qq,600) ~= "ok" do
+            while cq.groupBan(data.group,data.qq,60*24) ~= "ok" do
                 count = count + 1
                 if count > 20 then
                     cq.groupKick(data.group,data.qq,false)
@@ -39,19 +39,14 @@ return function (data)
             local a,b = math.random(30,99),math.random(1,10)
             local sent = {}
             table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
-            "欢迎加入本群，请在300秒内*私聊我*发送答案，不然会被移出本群\r\n"..
+            "欢迎加入本群，请在30分钟内*私聊我*发送答案，不然会被移出本群\r\n"..
                 "问题：假设有"..a.."个820开发板，每个袋子只能装"..b.."个，至少要多少个袋子才能装得下？"))
             XmlApi.Set("joinCheck",tostring(data.qq).."qq","wait")
             local pass
-            for i=1,300 do
+            for i=1,30*60 do
                 sys.wait(1000)
                 pass = tonumber(XmlApi.Get("joinCheck",tostring(data.qq).."qq")) == (a-1)//b+1
                 if pass then break end
-                if i%100==0 and i~=300 then
-                    table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
-                    "请在"..tostring(300-i).."秒内\r\n*私聊我*\r\n发送答案\r\n"..
-                    "问题：假设有"..a.."个820开发板，每个袋子只能装"..b.."个，至少要多少个袋子才能装得下？"))
-                end
             end
             for _,j in pairs(sent) do
                 cq.deleteMsg(j)
