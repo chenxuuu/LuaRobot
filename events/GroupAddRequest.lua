@@ -12,7 +12,7 @@ return function (data)
         and XmlApi.Get("joinCheck",tostring(data.qq).."qq") == "" then
 
         if XmlApi.Get("joinCheck",tostring(data.qq).."last") == "warn" or not checkQQInfo(data.qq,data.msg) then
-            cq.groupAddRequest(data.tag,"add",false,"请在加群申请里写上自己的qq号，以证明你不是机器人，谢谢")
+            cq.groupAddRequest(data.tag,"add",false,"请在申请里写上自己的qq号，以证明你是真人，谢谢")
             return
         end
         XmlApi.Delete("joinCheck",tostring(data.qq).."last")
@@ -27,7 +27,7 @@ return function (data)
         sys.taskInit(function()
             sys.wait(1000)
             local count = 0
-            while cq.groupBan(data.group,data.qq,60*24) ~= "ok" do
+            while cq.groupBan(data.group,data.qq,60*60*24) ~= "ok" do
                 count = count + 1
                 if count > 20 then
                     cq.groupKick(data.group,data.qq,false)
@@ -36,7 +36,7 @@ return function (data)
                 sys.wait(500)
             end
 
-            local a,b = math.random(30,99),math.random(1,10)
+            local a,b = math.random(100,999),math.random(1,99)
             local sent = {}
             table.insert(sent,cq.sendGroupMsg(data.group,cq.code.at(data.qq)..
             "欢迎加入本群，请在30分钟内*私聊我*发送答案，不然会被移出本群\r\n"..
