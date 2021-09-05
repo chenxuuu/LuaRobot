@@ -11,7 +11,8 @@ return function (data)
     if  XmlApi.Get("joinCheck",tostring(data.group)) == "on"
         and XmlApi.Get("joinCheck",tostring(data.qq).."qq") == "" then
 
-        if XmlApi.Get("joinCheck",tostring(data.qq).."last") == "warn" or not checkQQInfo(data.qq,data.msg) then
+        local check = checkQQInfo(data.qq,data.msg)
+        if (XmlApi.Get("joinCheck",tostring(data.qq).."last") == "warn" and not check) or not check then
             cq.groupAddRequest(data.tag,"add",false,"请在申请里写上自己的qq号，以证明你是真人，谢谢")
             return
         end
