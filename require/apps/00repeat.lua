@@ -17,7 +17,7 @@ run = function (data,sendMessage)
     for i=1,#last do
         if last[i]["msg"] == data.msg and last[i]["group"] ~= data.group and os.time() - last[i]["time"] < 3600  then
             sendMessage(cq.code.at(data.qq).."\r\n您已经在别的群里发送过这条消息了，请不要重复发送。")
-            break
+            return
         end
     end
     if #last >= 3 then
