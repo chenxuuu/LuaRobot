@@ -11,6 +11,7 @@ local function subscribe()
         "luaRobot/image",
         "luaRobot/record",
         "luaRobot/text",
+        XmlApi.Get("settings","ci_notify"),
     }
     for i=1,#topics do
         local count = 0
@@ -37,6 +38,8 @@ return function (message)
             --cq.sendPrivateMsg(961726194,cq.code.record(message.payload))
         elseif message.topic == "luaRobot/text" then
 
+        elseif message.topic == XmlApi.Get("settings","ci_notify") then
+            cq.sendGroupMsg(338489873,"最近一次提交导致"..message.payload.."项目编译失败，请检查错误原因。")
         end
         --Mqtt.Publish("luaRobot/pub/"..Utils.Setting.ClientID, "publish test", 0)
     end
