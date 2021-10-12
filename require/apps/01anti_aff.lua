@@ -8,6 +8,7 @@ local affMatch = {
     "时赚%d",
     "流量卡.*[^%d]1%d%d%d%d%d%d%d%d%d%d",
     "1%d%d%d%d%d%d%d%d%d%d[^%d].*流量卡",
+    "www.jiepei.com/%?.*g=.+",
 }
 
 local function atAdmin(g)
