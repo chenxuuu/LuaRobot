@@ -1,10 +1,12 @@
 return {--问问题
 check = function (data)
-    return data.msg:find("帮他搜") == 1 and data.msg:len() > 9
+    return data.msg:find("帮.+搜.+") == 1 and data.msg:len() > 9
 end,
 run = function (data,sendMessage)
-    local s = data.msg:sub(10)
-    sendMessage(s.."的资料都不会找？这么搜，懂了吗\r\nhttps://doc.openluat.com/search/"..string.urlEncode(s))
+    local u,s = data.msg:match("帮(.+)搜(.+)")
+    if u and s then
+        sendMessage("我帮"..u.."搜了一下"..s.."的资料：\r\nhttps://doc.openluat.com/search/"..string.urlEncode(s))
+    end
     return true
 end
 }

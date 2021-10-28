@@ -3,11 +3,23 @@ local Groups = require("luat_groups")
 
 return {
 check = function (data)
+    data = {
+        qq = data.qq,
+        group = data.group,
+        msg = data.msg:gsub("(%[CQ:image,file=.-%.image),url=.-%]","%1]")
+    }
+
     for i=1,#Groups do
         if Groups[i] == data.group then return true end
     end
 end,
 run = function (data,sendMessage)
+    data = {
+        qq = data.qq,
+        group = data.group,
+        msg = data.msg:gsub("(%[CQ:image,file=.-%.image),url=.-%]","%1]")
+    }
+
     local last = XmlApi.Get("repeatCheck",tostring(data.qq))
     if last == "" then
         last = {}
