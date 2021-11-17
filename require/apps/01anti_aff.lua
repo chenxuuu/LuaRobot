@@ -9,6 +9,7 @@ local affMatch = {
     "流量卡.*[^%d]1%d%d%d%d%d%d%d%d%d%d",
     "1%d%d%d%d%d%d%d%d%d%d[^%d].*流量卡",
     "WWW.JIEPEI.COM/%?.*G=.+",
+    "ELECFANS.COM.*INVITE%?.*NAME="
 }
 
 local function atAdmin(g)
