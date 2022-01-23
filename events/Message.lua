@@ -34,6 +34,12 @@ return function (data)
         end
     end
 
+    data = {
+        qq = data.qq,
+        group = data.group,
+        msg = data.msg:gsub("(.-gchatpic_new/)%d-(/.-)","%1123456%2")
+    }
+
     --遍历所有功能
     for i=1,#apps do
         if apps[i].check and apps[i].check(data) then
