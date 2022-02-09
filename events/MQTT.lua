@@ -46,7 +46,7 @@ return function (message)
                 local su = HttpPost("https://xn--ugt.cc/api/set.php",para)
                 local j,r = jsonDecode(su)
                 if r and j then
-                    msg = msg:gsub("https://github.com/openLuat/LuatOS/actions/runs/%d\r*\n",j.content.url.."\r\n")
+                    msg = msg:gsub("https://github.com/openLuat/LuatOS/actions/runs/%d+\r*\n",j.content.url.."\r\n")
                 end
             end
             cq.sendGroupMsg(772800628,"编译炸了，快来看看：\r\n"..msg)
