@@ -39,9 +39,19 @@ return function (message)
         elseif message.topic == "luaRobot/text" then
 
         elseif message.topic == XmlApi.Get("settings","ci_notify") then
-            cq.sendGroupMsg(338489873,"最近一次提交导致"..message.payload.."项目编译失败，请检查错误原因。")
+            local msg = message.payload
+            local url = msg:match(" (https://github.com/openLuat/LuatOS/actions/runs/.+)")
+            if url then
+                local para = jsonEncode({url=url})
+                local su = HttpPost("https://xn--ugt.cc/api/set.php",para)
+                local j,r = jsonDecode(su)
+                if r and j then
+                    msg = msg:match("(.+ )https://github.com/openLuat/LuatOS/actions/runs/.+")
+                    msg = msg..j.content.url
+                end
+            end
+            cq.sendGroupMsg(338489873,"编译炸了，快来看看：\r\n"..msg)
         end
-        --Mqtt.Publish("luaRobot/pub/"..Utils.Setting.ClientID, "publish test", 0)
     end
 end
 
