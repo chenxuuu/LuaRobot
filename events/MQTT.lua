@@ -40,14 +40,13 @@ return function (message)
 
         elseif message.topic == XmlApi.Get("settings","ci_notify") then
             local msg = message.payload
-            local url = msg:match(" (https://github.com/openLuat/LuatOS/actions/runs/.+)")
+            local url = msg:match(" (https://github.com/openLuat/LuatOS/actions/runs/.+)\r*\n")
             if url then
                 local para = jsonEncode({url=url})
                 local su = HttpPost("https://xn--ugt.cc/api/set.php",para)
                 local j,r = jsonDecode(su)
                 if r and j then
-                    msg = msg:match("(.+ )https://github.com/openLuat/LuatOS/actions/runs/.+")
-                    msg = msg..j.content.url
+                    msg = msg:gsub("https://github.com/openLuat/LuatOS/actions/runs/.+\r*\n",j.content.url.."\r\n")
                 end
             end
             cq.sendGroupMsg(338489873,"编译炸了，快来看看：\r\n"..msg)
