@@ -131,5 +131,5 @@ end
 -- @return str,urlEncode编码的字符串
 -- @usage string.urlEncode("####133")
 function string.urlEncode(str)
-    return string.gsub(string.gsub(string.gsub(tostring(str), "\n", "\r\n"), "([^%w%.%- ])", urlEncodeChar), " ", "+")
+    return string.gsub(string.gsub(string.gsub(tostring(str), "\n", "\r\n"), "([^%w%.%- ])", urlEncodeChar), " ", "%20")
 end
