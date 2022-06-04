@@ -5,7 +5,7 @@ end,
 run = function (data,sendMessage)
     local u,s = data.msg:match("帮(.+)找(.+)")
     if u and s then
-        sendMessage("我帮"..u.."搜了一下"..s.."的资料：\r\nhttps://wiki.luatos.com/search.html?check_keywords=yes&area=default&q="..string.urlEncode(s))
+        sendMessage("我帮"..u.."搜了一下"..s.."的资料：\r\nhttps://cn.bing.com/search?q=site%3Awiki.luatos.com+"..string.urlEncode(s))
     end
     return true
 end
