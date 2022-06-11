@@ -37,7 +37,8 @@ return function (data)
     data = {
         qq = data.qq,
         group = data.group,
-        msg = data.msg:gsub("(.-gchatpic_new/)%d-(/.-)","%1123456%2")
+        msg = data.msg:gsub("(.-gchatpic_new/)%d-(/.-)","%1123456%2"),
+        id = data.id,
     }
 
     --遍历所有功能
