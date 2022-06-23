@@ -56,4 +56,20 @@ sys.timerLoopStart(function ()
     if not r then print(e) end
 end, 1*60*1000)
 
+local notify_list = require("luat_notify")
+
+for group,info in pairs(notify_list) do
+    sys.taskInit(function()
+        while true do
+            local delay = math.random(info.duration[1],info.duration[2])
+            print("群"..group.."消息延时"..delay.."秒发送")
+            sys.wait(delay*1000)
+            local now = os.date("*t").hour
+            if now >= info.time[1] and now <= info.time[2] then
+                cq.sendGroupMsg(group,"温馨小提示~~o(*￣▽￣*)o~~\r\n"..info.text[math.random(1,#info.text)])
+            end
+        end
+    end)
+end
+
 end
